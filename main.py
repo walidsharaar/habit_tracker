@@ -56,8 +56,8 @@ sheet_response = requests.post(
     SHEET_END_POINT,
     json=sheet_inputs,
     auth=(
-        "mmytest779@gmail.com",
-        "1234567@abc%$"
+        "mytestusername",
+        "mytestpassword"
          )
 )
 
