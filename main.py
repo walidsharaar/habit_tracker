@@ -33,6 +33,7 @@ print(result)
 
 #----------------- insert data into sheet-------------#
 
+
 today_date = datetime.now().strftime("%d%m%Y")
 now_time = datetime.now().strftime("%d%m%Y")
 
@@ -48,3 +49,26 @@ for exercise in result["exercises"]:
     }
     sheet_response= requests.post(SHEET_END_POINT,json=sheet_inputs)
     print(sheet_response.text)
+
+# Authentication
+
+sheet_response = requests.post(
+    SHEET_END_POINT,
+    json=sheet_inputs,
+    auth=(
+        "mmytest779@gmail.com",
+        "1234567@abc%$"
+         )
+)
+
+# Bearer Token Authentication
+
+bearer_headers={
+    "Authorization":"Bearer This is a sample token"
+}
+
+sheet_response = requests.post(
+    SHEET_END_POINT,
+    json=sheet_inputs,
+    headers=bearer_headers
+)
