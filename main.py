@@ -1,10 +1,12 @@
 
 #NUTRITIONIX API
 import requests
+import  datetime
 
 APP_ID="556100f8"
-API_KEY="ad751b7cbd87d4473e63406e2de5d1e3	—"
+API_KEY="ad751b7cbd87d4473e63406e2de5d1e3—"
 EXERCISE_END_POINT= "https://trackapi.nutritionix.com/v2/natural/exercise"
+SHEET_END_POINT="https://api.sheety.co/0a9f127e197081af144d45ebf7e54d3e/workoutsTracking/workouts"
 GENDER = "Male"
 WEIGHT_KG = "85"
 HEIGHT_CM = "187"
@@ -28,3 +30,21 @@ parameters={
 response = requests.post(EXERCISE_END_POINT, json=parameters, headers=headers)
 result= response.json()
 print(result)
+
+#----------------- insert data into sheet-------------#
+
+today_date = datetime.now().strftime("%d%m%Y")
+now_time = datetime.now().strftime("%d%m%Y")
+
+for exercise in result["exercises"]:
+    sheet_inputs={
+        "workout":{
+            "date": today_date,
+            "time":now_time,
+            "exercise": exercise["name"].title(),
+            "duration": exercise["duration_min"],
+            "calories":exercise["nf_calories"]
+        }
+    }
+    sheet_response= requests.post(SHEET_END_POINT,json=sheet_inputs)
+    print(sheet_response.text)
